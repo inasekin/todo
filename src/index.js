@@ -5,6 +5,8 @@ import AppHeader from './components/app-header';
 import SearchPanel from './components/search-panel';
 import TodoList from './components/todo-list';
 
+import './index.css';
+
 const App = () => {
 
     const isLoggedIn = true;
@@ -12,13 +14,13 @@ const App = () => {
     const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
 
     const todoData = [
-        {label: 'Drink Coffee', important: false},
-        {label: 'Make Awesome App', important: true},
-        {label: 'Have a lunch', important: false}
+        {label: 'Drink Coffee', important: false, id: 1},
+        {label: 'Make Awesome App', important: true, id: 2},
+        {label: 'Have a lunch', important: false, id: 3}
     ];
 
     return (
-        <div>
+        <div className="container app index">
             { isLoggedIn ? welcomeBox : loginBox }
             <span>{(new Date()).toString()}</span>
             <AppHeader />
