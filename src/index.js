@@ -8,8 +8,14 @@ import TodoList from './components/todo-list';
 const App = () => {
 
     const isLoggedIn = true;
-    const loginBox = <span>Log in please <br/></span>
-    const welcomeBox = <span>Welcome Back! 🤡<br/></span>
+    const loginBox = <span>Log in please <br/></span>;
+    const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
+
+    const todoData = [
+        {label: 'Drink Coffee', important: false},
+        {label: 'Make Awesome App', important: true},
+        {label: 'Have a lunch', important: false}
+    ];
 
     return (
         <div>
@@ -17,7 +23,7 @@ const App = () => {
             <span>{(new Date()).toString()}</span>
             <AppHeader />
             <SearchPanel />
-            <TodoList />
+            <TodoList todos={todoData} />
         </div>
     );
 }
