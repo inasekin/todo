@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
@@ -6,27 +6,46 @@ import TodoList from '../todo-list';
 
 import './app.css';
 
-const App = () => {
+export default class App extends Component {
 
-    const isLoggedIn = true;
-    const loginBox = <span>Log in please <br/></span>;
-    const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
+    state = {
+        todoData: [
+            {label: 'Drink Coffee', important: false, id: 1},
+            {label: 'Make Awesome App', important: true, id: 2},
+            {label: 'Have a lunch', important: false, id: 3}
+        ]
+    };
 
-    const todoData = [
-        {label: 'Drink Coffee', important: false, id: 1},
-        {label: 'Make Awesome App', important: true, id: 2},
-        {label: 'Have a lunch', important: false, id: 3}
-    ];
+    deleteItem = (id) => {
+        this.setState(({todoData}) => {
+            const idx = todoData.findIndex((el) => el.id == id);
+            //НЕЛЬЗЯ ИЗМЕНЯТЬ СУЩЕСТВУЮЩИЙ state
 
-    return (
-        <div className="container app index">
-            { isLoggedIn ? welcomeBox : loginBox }
-            <span>{(new Date()).toString()}</span>
-            <AppHeader />
-            <SearchPanel />
-            <TodoList todos={todoData} />
-        </div>
-    );
+            const before = todoData.slice(0, idx);
+            const after = todoData.slice(idx + 1);
+
+            const newArray = [ ...before, ...after];
+
+            return {
+                todoData: newArray
+            }
+        });
+    };
+
+    render() {
+        const isLoggedIn = true;
+        const loginBox = <span>Log in please <br/></span>;
+        const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
+    
+        return (
+            <div className="container app index">
+                { isLoggedIn ? welcomeBox : loginBox }
+                <span>{(new Date()).toString()}</span>
+                <AppHeader />
+                <SearchPanel />
+                <TodoList todos={this.state.todoData} 
+                onDeleted={ this.deleteItem }/>
+            </div>
+        );
+    }
 }
-
-export default App;
