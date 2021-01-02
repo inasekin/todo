@@ -21,7 +21,7 @@ export default class App extends Component {
 
     deleteItem = (id) => {
         this.setState(({todoData}) => {
-            const idx = todoData.findIndex((el) => el.id == id);
+            const idx = todoData.findIndex((el) => el.id === id);
             //НЕЛЬЗЯ ИЗМЕНЯТЬ СУЩЕСТВУЮЩИЙ state
 
             const before = todoData.slice(0, idx);
@@ -54,6 +54,14 @@ export default class App extends Component {
         })
     };
 
+    onToggleImportant = (id) => {
+        console.log('Toggle Important', id);
+    };
+
+    onToggleDone = (id) => {
+        console.log('Toggle Done', id)
+    };
+
     render() {
         const isLoggedIn = true;
         const loginBox = <span>Log in please <br/></span>;
@@ -66,7 +74,9 @@ export default class App extends Component {
                 <AppHeader />
                 <SearchPanel />
                 <TodoList todos={this.state.todoData} 
-                onDeleted={ this.deleteItem }/>
+                onDeleted={ this.deleteItem }
+                onToggleImportant={this.onToggleImportant}
+                onToggleDone={this.onToggleDone}/>
                 <AddItem todos={this.state.todoData}
                 onItemAdded={ this.addItem }/>
             </div>
