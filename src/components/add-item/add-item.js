@@ -10,11 +10,13 @@ export default class AddItem extends Component {
 
     render() {
         return (
-            <div className="add-item">
-                {/* // Form here */}
+            <form className="add-item d-flex">
+                <input type="text" className="form-control" 
+                onChange={this.onLabelChenge} 
+                placeholder="What needs to be free"/>
                 <button className="add-item btn btn-outline-secondary" type="submit"
                 onClick={() => this.props.onItemAdded('Hello!')}>Add Item</button>
-            </div>
+            </form>
         );
     };
 };
