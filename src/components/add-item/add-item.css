@@ -1,0 +1,17 @@
+.add-item {
+    margin-top: 20px;
+    text-align: center;
+}
+
+input.form-control {
+    padding-top: 3px;
+    padding-bottom: 3px;
+    position: relative;
+    top: 7px;
+    width: 75%;
+}
+
+button.add-item.btn.btn-outline-secondary {
+    margin-left: 7px;
+    margin-top: 7px;
+}
