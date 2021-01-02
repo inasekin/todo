@@ -9,6 +9,8 @@ import './app.css';
 
 export default class App extends Component {
 
+    maxId = 100;
+
     state = {
         todoData: [
             {label: 'Drink Coffee', important: false, id: 1},
@@ -33,6 +35,25 @@ export default class App extends Component {
         });
     };
 
+    addItem = (text) => {
+        const newItem = {
+            label: text,
+            important: false, 
+            id: this.maxId++
+        }
+
+        this.setState(({todoData}) => {
+            const newArr = [
+                ...todoData,
+                newItem
+            ];
+
+            return {
+                todoData: newArr
+            }
+        })
+    };
+
     render() {
         const isLoggedIn = true;
         const loginBox = <span>Log in please <br/></span>;
@@ -46,7 +67,8 @@ export default class App extends Component {
                 <SearchPanel />
                 <TodoList todos={this.state.todoData} 
                 onDeleted={ this.deleteItem }/>
-                <AddItem/>
+                <AddItem todos={this.state.todoData}
+                onItemAdded={ this.addItem }/>
             </div>
         );
     }

@@ -4,11 +4,16 @@ import './add-item.css';
 
 export default class AddItem extends Component {
 
+    state = {
+        newitem: true
+    };
+
     render() {
         return (
             <div className="add-item">
-                <input type="text" className="add-item-input" />
-                <button class="add-item btn btn-primary" type="submit">Add Item</button>
+                {/* // Form here */}
+                <button className="add-item btn btn-outline-secondary" type="submit"
+                onClick={() => this.props.onItemAdded('Hello!')}>Add Item</button>
             </div>
         );
     };
