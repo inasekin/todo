@@ -59,6 +59,13 @@ export default class App extends Component {
         })
     };
 
+    enterItem = (text) => {
+        this.setState(({todoData}) => {
+            const enterFilter = todoData.indexOf(text);
+            console.log(enterFilter);
+        });
+    }
+
     toggleProperty(arr, id, propName) {
         const idx = arr.findIndex((el) => el.id === id);
 
@@ -103,7 +110,7 @@ export default class App extends Component {
                 { isLoggedIn ? welcomeBox : loginBox }
                 <span>{(new Date()).toString()}</span>
                 <AppHeader toDo={todoCount} done={doneCount}/>
-                <SearchPanel />
+                <SearchPanel todos={todoData} onItemEnter={this.enterItem}/>
                 <TodoList todos={todoData} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}
