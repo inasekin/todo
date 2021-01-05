@@ -16,8 +16,17 @@ export default class App extends Component {
             this.createTodoItem('Drink Coffee'),
             this.createTodoItem('Make Awesome App'),
             this.createTodoItem('Have a lunch')
-        ]
+        ],
+        todoDataSearch: []
     };
+
+    componentDidMount() {
+        this.setState(({todoDataSearch, todoData}) => {
+            return {
+                todoDataSearch: [...todoData]
+            }
+        });
+    }
 
     createTodoItem(label) {
         return {
@@ -47,22 +56,29 @@ export default class App extends Component {
     addItem = (text) => {
         const newItem = this.createTodoItem(text);
 
-        this.setState(({todoData}) => {
+        this.setState(({todoData, todoDataSearch}) => {
             const newArr = [
                 ...todoData,
                 newItem
             ];
 
             return {
-                todoData: newArr
+                todoData: newArr,
+                todoDataSearch: newArr
             }
         })
     };
 
-    enterItem = (text) => {
+    enterItem = (array) => {
+        console.log(array);
         this.setState(({todoData}) => {
-            const enterFilter = todoData.indexOf(text);
-            console.log(enterFilter);
+            const newArray = [
+                ...array
+            ];
+
+            return {
+                todoDataSearch: newArray
+            }
         });
     }
 
@@ -80,17 +96,17 @@ export default class App extends Component {
     }
 
     onToggleDone = (id) => {
-        this.setState(({todoData}) => {
+        this.setState(({todoDataSearch}) => {
             return {
-                todoData: this.toggleProperty(todoData, id, 'done')
+                todoDataSearch: this.toggleProperty(todoDataSearch, id, 'done')
             }
         });
     };
 
     onToggleImportant = (id) => {
-        this.setState(({todoData}) => {
+        this.setState(({todoDataSearch}) => {
             return {
-                todoData: this.toggleProperty(todoData, id, 'important')
+                todoDataSearch: this.toggleProperty(todoDataSearch, id, 'important')
             }
         });
     };
@@ -100,10 +116,10 @@ export default class App extends Component {
         const loginBox = <span>Log in please <br/></span>;
         const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
 
-        const { todoData } = this.state;
+        const { todoData, todoDataSearch } = this.state;
 
-        const doneCount = todoData.filter((el) => el.done).length;
-        const todoCount = todoData.length - doneCount;
+        const doneCount = todoDataSearch.filter((el) => el.done).length;
+        const todoCount = todoDataSearch.length - doneCount;
     
         return (
             <div className="container app index">
@@ -111,11 +127,11 @@ export default class App extends Component {
                 <span>{(new Date()).toString()}</span>
                 <AppHeader toDo={todoCount} done={doneCount}/>
                 <SearchPanel todos={todoData} onItemEnter={this.enterItem}/>
-                <TodoList todos={todoData} 
+                <TodoList todos={todoDataSearch} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}
                 onToggleDone={this.onToggleDone}/>
-                <AddItem todos={todoData}
+                <AddItem todos={todoDataSearch}
                 onItemAdded={ this.addItem }/>
             </div>
         );

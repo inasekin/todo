@@ -1,3 +1,4 @@
+import { logDOM } from '@testing-library/react';
 import React, { Component } from 'react';
 
 import StatusFilter from '../item-status-filter';
@@ -13,7 +14,17 @@ export default class SearchPanel extends Component {
 
     onInputChange = (e) => {
         e.preventDefault();
-        this.props.onItemEnter(this.state.label);
+        console.log(e.target.value);
+        const searchItems = [];
+        for(var i = 0; i < this.props.todos.length; i++) {
+            const searchItem = this.props.todos[i].label.toLowerCase().indexOf(e.target.value.toLowerCase());
+            if (searchItem > -1) {
+                searchItems.push(this.props.todos[i]);
+            } else if (e.target.value.length === 0) {
+                searchItems.push(this.props.todos[i]);
+            }
+        }
+        this.props.onItemEnter(searchItems);
         this.setState({
             label: e.target.value
         });
