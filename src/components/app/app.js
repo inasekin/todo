@@ -4,6 +4,7 @@ import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
 import TodoList from '../todo-list';
 import AddItem from '../add-item';
+import StatusFilter from '../item-status-filter';
 
 import './app.css';
 
@@ -17,7 +18,8 @@ export default class App extends Component {
             this.createTodoItem('Make Awesome App'),
             this.createTodoItem('Have a lunch')
         ],
-        todoDataSearch: []
+        todoDataSearch: [],
+        filter: 'active' // active, all, done
     };
 
     componentDidMount() {
@@ -70,7 +72,6 @@ export default class App extends Component {
     };
 
     enterItem = (array) => {
-        console.log(array);
         this.setState(({todoData}) => {
             const newArray = [
                 ...array
@@ -127,6 +128,7 @@ export default class App extends Component {
                 <span>{(new Date()).toString()}</span>
                 <AppHeader toDo={todoCount} done={doneCount}/>
                 <SearchPanel todos={todoData} onItemEnter={this.enterItem}/>
+                <StatusFilter todos={todoDataSearch} onFilterActive={this.filterActive} />
                 <TodoList todos={todoDataSearch} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}

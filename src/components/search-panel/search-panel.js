@@ -1,8 +1,6 @@
 import { logDOM } from '@testing-library/react';
 import React, { Component } from 'react';
 
-import StatusFilter from '../item-status-filter';
-
 import './search-panel.css';
 
 export default class SearchPanel extends Component {
@@ -29,6 +27,7 @@ export default class SearchPanel extends Component {
             label: e.target.value
         });
     };
+    
 
     render() {
         const searchText = 'Type here to search';
@@ -43,7 +42,6 @@ export default class SearchPanel extends Component {
             onChange={this.onInputChange}
             style={ searchStyle }
             value={this.state.label}/>
-            <StatusFilter />
             </div>
     
         );
