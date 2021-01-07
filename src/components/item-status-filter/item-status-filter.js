@@ -4,22 +4,42 @@ import './item-status-filter.css';
 
 export default class StatusFilter extends Component {
 
-    onFilterActive = (e) => {
-        e.preventDefault();
-        console.log(123);
-        const filteredItemsActive = [];
-        for(var i = 0; i < this.props.todos.length; i++) {
-            const filteredItemsActive = this.props.todos.filter();
-            console.log(filteredItemsActive);
-        }
-    }
+    setFilterAll = () => {
+        this.props.setFilter('all');
+    };
+    setFilterActive = () => {
+        this.props.setFilter('active');
+    };
+    setFilterDone = () => {
+        this.props.setFilter('completed');
+    };
 
     render() {
+        const { filter } = this.props;
+
         return (
+            // 
+            //     <button onClick={this.setFilterAll}>All</button>
+            //     <button onClick={this.setFilterActive}>Active</button>
+            //     <button onClick={this.setFilterDone}>Done</button>
+            // 
             <div className="btn-group item-status-filter" role="group" aria-label="Basic example">
-                <button type="button" className="btn btn-info">All</button>
-                <button type="button" className="btn btn-outline-secondary btn-filter-active" onClick={this.onFilterActive}>Active</button>
-                <button type="button" className="btn btn-outline-secondary">Done</button>
+                Set filter:{' '}
+                {filter === 'all' ? (
+                    <span>All</span>
+                ) : (
+                    <button type="button" className="btn btn-info" onClick={this.setFilterAll}>All</button>
+                )}{' '}
+                {filter === 'active' ? (
+                    <span>Active</span>
+                ) : (
+                    <button type="button" className="btn btn-outline-secondary btn-filter-active" onClick={this.setFilterActive}>Active</button>
+                )}{' '}
+                {filter === 'completed' ? (
+                    <span>Completed</span>
+                ) : (
+                    <button type="button" className="btn btn-outline-secondary" onClick={this.setFilterDone}>Done</button>
+                )}
             </div>
         );
     }

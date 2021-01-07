@@ -128,7 +128,7 @@ export default class App extends Component {
                 <span>{(new Date()).toString()}</span>
                 <AppHeader toDo={todoCount} done={doneCount}/>
                 <SearchPanel todos={todoData} onItemEnter={this.enterItem}/>
-                <StatusFilter todos={todoDataSearch} onFilterActive={this.filterActive} />
+                <StatusFilter todos={todoData} />
                 <TodoList todos={todoDataSearch} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}
