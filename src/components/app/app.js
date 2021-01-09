@@ -20,16 +20,16 @@ export default class App extends Component {
         ],
         todoDataSearch: [],
         term: '',
-        filter: 'active' // active, all, done
+        filter: 'all' // active, all, done
     };
 
-    componentDidMount() {
-        this.setState(({todoDataSearch, todoData}) => {
-            return {
-                todoDataSearch: [...todoData]
-            }
-        });
-    }
+    // componentDidMount() {
+    //     this.setState(({todoDataSearch, todoData}) => {
+    //         return {
+    //             todoDataSearch: [...todoData]
+    //         }
+    //     });
+    // }
 
     createTodoItem(label) {
         return {
@@ -86,6 +86,10 @@ export default class App extends Component {
         // });
     }
 
+    onFilterChange = (filter) => {
+        this.setState({filter});
+    }
+
     toggleProperty(arr, id, propName) {
         const idx = arr.findIndex((el) => el.id === id);
 
@@ -100,17 +104,17 @@ export default class App extends Component {
     }
 
     onToggleDone = (id) => {
-        this.setState(({todoDataSearch}) => {
+        this.setState(({todoData}) => {
             return {
-                todoDataSearch: this.toggleProperty(todoDataSearch, id, 'done')
+                todoData: this.toggleProperty(todoData, id, 'done')
             }
         });
     };
 
     onToggleImportant = (id) => {
-        this.setState(({todoDataSearch}) => {
+        this.setState(({todoData}) => {
             return {
-                todoDataSearch: this.toggleProperty(todoDataSearch, id, 'important')
+                todoData: this.toggleProperty(todoData, id, 'important')
             }
         });
     };
@@ -137,8 +141,26 @@ export default class App extends Component {
             return items; 
         } 
         return items.filter((item) => {
-            return item.label.indexOf(term) > -1;
+            return item.label.indexOf(term.toLowerCase()) > -1;
         })
+    }
+
+    // - сделать так чтобы app мог фильтровать элементы
+    // - создание функции
+    // - объявление нового параметра для state
+
+    filter(items, filter) {
+        switch(filter) {
+            case 'all': 
+                return items;
+            case 'active': 
+            // выбор элементов, которые соответствуют фильтру
+                return items.filter((item) => !item.done);
+            case 'done':
+                return items.filter((item) => item.done);
+            default:
+                return items;
+        }
     }
 
     render() {
@@ -146,9 +168,9 @@ export default class App extends Component {
         const loginBox = <span>Log in please <br/></span>;
         const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
 
-        const { todoData, todoDataSearch, term } = this.state;
+        const { todoData, todoDataSearch, term, filter } = this.state;
 
-        const visibleItems = this.search(todoData, term);
+        const visibleItems = this.filter(this.search(todoData, term), filter);
 
         const doneCount = todoDataSearch.filter((el) => el.done).length;
         const todoCount = todoDataSearch.length - doneCount;
@@ -160,7 +182,8 @@ export default class App extends Component {
                 <AppHeader toDo={todoCount} done={doneCount}/>
                 {/* onItemEnter={this.enterItem} */}
                 <SearchPanel todos={todoData} onInputChange={this.onInputChange}/>
-                <StatusFilter todos={todoData} />
+                {/* обновляет состояние компонента => onFilterChange*/}
+                <StatusFilter filter={filter} onFilterChange={this.onFilterChange}/>
                 <TodoList todos={visibleItems} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}
