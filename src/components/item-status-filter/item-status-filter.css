@@ -1,4 +1,6 @@
-.btn-group.item-status-filter {
-    float: right;
-
+.item-status-filter {
+    display: inline-block;
+    position: relative;
+    bottom: 3px;
+    left: 6px;
 }
