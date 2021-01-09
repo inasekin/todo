@@ -7,25 +7,28 @@ export default class SearchPanel extends Component {
 
 
     state = {
-        label: ''
+        term: ''
     }
 
     onInputChange = (e) => {
-        e.preventDefault();
-        console.log(e.target.value);
-        const searchItems = [];
-        for(var i = 0; i < this.props.todos.length; i++) {
-            const searchItem = this.props.todos[i].label.toLowerCase().indexOf(e.target.value.toLowerCase());
-            if (searchItem > -1) {
-                searchItems.push(this.props.todos[i]);
-            } else if (e.target.value.length === 0) {
-                searchItems.push(this.props.todos[i]);
-            }
-        }
-        this.props.onItemEnter(searchItems);
-        this.setState({
-            label: e.target.value
-        });
+        const term = e.target.value;
+        this.setState({ term });
+        this.props.onInputChange(term);
+        // e.preventDefault();
+        // console.log(e.target.value);
+        // const searchItems = [];
+        // for(var i = 0; i < this.props.todos.length; i++) {
+        //     const searchItem = this.props.todos[i].label.toLowerCase().indexOf(e.target.value.toLowerCase());
+        //     if (searchItem > -1) {
+        //         searchItems.push(this.props.todos[i]);
+        //     } else if (e.target.value.length === 0) {
+        //         searchItems.push(this.props.todos[i]);
+        //     }
+        // }
+        // this.props.onItemEnter(searchItems);
+        // this.setState({
+        //     label: e.target.value
+        // });
     };
     
 
@@ -41,7 +44,7 @@ export default class SearchPanel extends Component {
             className="foo"
             onChange={this.onInputChange}
             style={ searchStyle }
-            value={this.state.label}/>
+            value={this.state.term}/>
             </div>
     
         );

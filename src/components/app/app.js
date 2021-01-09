@@ -19,6 +19,7 @@ export default class App extends Component {
             this.createTodoItem('Have a lunch')
         ],
         todoDataSearch: [],
+        term: '',
         filter: 'active' // active, all, done
     };
 
@@ -71,16 +72,18 @@ export default class App extends Component {
         })
     };
 
-    enterItem = (array) => {
-        this.setState(({todoData}) => {
-            const newArray = [
-                ...array
-            ];
+    onInputChange = (term) => {
+        this.setState({term});
 
-            return {
-                todoDataSearch: newArray
-            }
-        });
+        // this.setState(({todoData}) => {
+        //     const newArray = [
+        //         ...array
+        //     ];
+
+        //     return {
+        //         todoDataSearch: newArray
+        //     }
+        // });
     }
 
     toggleProperty(arr, id, propName) {
@@ -112,12 +115,40 @@ export default class App extends Component {
         });
     };
 
+    // setFilterActive()  {
+    //     let btnFilterActive = document.querySelector('.btn-filter-active');
+    //         btnFilterActive.classList.add('active');
+    //     const filteredActiveItems = this.todos.filter(function(todo) {
+    //         return(todoData.filter === this.state.todoDataSearch);
+    //     }, this).filter(function (todo) {
+    //             switch (this.state.nowShowing) {
+    //             case app.ACTIVE_TODOS:
+    //                     return !todo.completed;
+    //             case app.COMPLETED_TODOS:
+    //                     return todo.completed;
+    //             default:
+    //                     return true;
+    //             }
+    //     }, this);
+    // };
+
+    search(items, term) {
+        if (term.length === 0) {
+            return items; 
+        } 
+        return items.filter((item) => {
+            return item.label.indexOf(term) > -1;
+        })
+    }
+
     render() {
         const isLoggedIn = true;
         const loginBox = <span>Log in please <br/></span>;
         const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
 
-        const { todoData, todoDataSearch } = this.state;
+        const { todoData, todoDataSearch, term } = this.state;
+
+        const visibleItems = this.search(todoData, term);
 
         const doneCount = todoDataSearch.filter((el) => el.done).length;
         const todoCount = todoDataSearch.length - doneCount;
@@ -127,9 +158,10 @@ export default class App extends Component {
                 { isLoggedIn ? welcomeBox : loginBox }
                 <span>{(new Date()).toString()}</span>
                 <AppHeader toDo={todoCount} done={doneCount}/>
-                <SearchPanel todos={todoData} onItemEnter={this.enterItem}/>
+                {/* onItemEnter={this.enterItem} */}
+                <SearchPanel todos={todoData} onInputChange={this.onInputChange}/>
                 <StatusFilter todos={todoData} />
-                <TodoList todos={todoDataSearch} 
+                <TodoList todos={visibleItems} 
                 onDeleted={ this.deleteItem }
                 onToggleImportant={this.onToggleImportant}
                 onToggleDone={this.onToggleDone}/>
