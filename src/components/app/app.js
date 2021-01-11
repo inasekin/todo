@@ -1,4 +1,6 @@
-import React, { Component } from 'react';
+import React, {
+    Component
+} from 'react';
 
 import AppHeader from '../app-header';
 import SearchPanel from '../search-panel';
@@ -35,20 +37,22 @@ export default class App extends Component {
         return {
             label,
             important: false,
-            done: false, 
+            done: false,
             id: this.maxId++
         };
     }
 
     deleteItem = (id) => {
-        this.setState(({todoData}) => {
+        this.setState(({
+            todoData
+        }) => {
             const idx = todoData.findIndex((el) => el.id === id);
             //НЕЛЬЗЯ ИЗМЕНЯТЬ СУЩЕСТВУЮЩИЙ state
 
             const before = todoData.slice(0, idx);
             const after = todoData.slice(idx + 1);
 
-            const newArray = [ ...before, ...after];
+            const newArray = [...before, ...after];
 
             return {
                 todoData: newArray
@@ -59,7 +63,10 @@ export default class App extends Component {
     addItem = (text) => {
         const newItem = this.createTodoItem(text);
 
-        this.setState(({todoData, todoDataSearch}) => {
+        this.setState(({
+            todoData,
+            todoDataSearch
+        }) => {
             const newArr = [
                 ...todoData,
                 newItem
@@ -73,7 +80,9 @@ export default class App extends Component {
     };
 
     onInputChange = (term) => {
-        this.setState({term});
+        this.setState({
+            term
+        });
 
         // this.setState(({todoData}) => {
         //     const newArray = [
@@ -87,14 +96,19 @@ export default class App extends Component {
     }
 
     onFilterChange = (filter) => {
-        this.setState({filter});
+        this.setState({
+            filter
+        });
     }
 
     toggleProperty(arr, id, propName) {
         const idx = arr.findIndex((el) => el.id === id);
 
         const oldItem = arr[idx];
-        const newItem = { ...oldItem, [propName]: !oldItem[propName]};
+        const newItem = {
+            ...oldItem,
+            [propName]: !oldItem[propName]
+        };
 
         return [
             ...arr.slice(0, idx),
@@ -104,7 +118,9 @@ export default class App extends Component {
     }
 
     onToggleDone = (id) => {
-        this.setState(({todoData}) => {
+        this.setState(({
+            todoData
+        }) => {
             return {
                 todoData: this.toggleProperty(todoData, id, 'done')
             }
@@ -112,7 +128,9 @@ export default class App extends Component {
     };
 
     onToggleImportant = (id) => {
-        this.setState(({todoData}) => {
+        this.setState(({
+            todoData
+        }) => {
             return {
                 todoData: this.toggleProperty(todoData, id, 'important')
             }
@@ -138,10 +156,10 @@ export default class App extends Component {
 
     search(items, term) {
         if (term.length === 0) {
-            return items; 
-        } 
+            return items;
+        }
         return items.filter((item) => {
-            return item.label.indexOf(term.toLowerCase()) > -1;
+            return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1;
         })
     }
 
@@ -150,11 +168,11 @@ export default class App extends Component {
     // - объявление нового параметра для state
 
     filter(items, filter) {
-        switch(filter) {
-            case 'all': 
+        switch (filter) {
+            case 'all':
                 return items;
-            case 'active': 
-            // выбор элементов, которые соответствуют фильтру
+            case 'active':
+                // выбор элементов, которые соответствуют фильтру
                 return items.filter((item) => !item.done);
             case 'done':
                 return items.filter((item) => item.done);
@@ -164,33 +182,75 @@ export default class App extends Component {
     }
 
     render() {
-        const isLoggedIn = true;
-        const loginBox = <span>Log in please <br/></span>;
-        const welcomeBox = <span>Welcome Back! 🤡<br/></span>;
+            const isLoggedIn = true;
+            const loginBox = < span > Log in please < br / > < /span>;
+            const welcomeBox = < span > Welcome Back!🤡 < br / > < /span>;
 
-        const { todoData, todoDataSearch, term, filter } = this.state;
+            const {
+                todoData,
+                todoDataSearch,
+                term,
+                filter
+            } = this.state;
 
-        const visibleItems = this.filter(this.search(todoData, term), filter);
+            const visibleItems = this.filter(this.search(todoData, term), filter);
 
-        const doneCount = todoDataSearch.filter((el) => el.done).length;
-        const todoCount = todoDataSearch.length - doneCount;
-    
-        return (
-            <div className="container app index">
-                { isLoggedIn ? welcomeBox : loginBox }
-                <span>{(new Date()).toString()}</span>
-                <AppHeader toDo={todoCount} done={doneCount}/>
-                {/* onItemEnter={this.enterItem} */}
-                <SearchPanel todos={todoData} onInputChange={this.onInputChange}/>
-                {/* обновляет состояние компонента => onFilterChange*/}
-                <StatusFilter filter={filter} onFilterChange={this.onFilterChange}/>
-                <TodoList todos={visibleItems} 
-                onDeleted={ this.deleteItem }
-                onToggleImportant={this.onToggleImportant}
-                onToggleDone={this.onToggleDone}/>
-                <AddItem todos={todoDataSearch}
-                onItemAdded={ this.addItem }/>
-            </div>
-        );
+            const doneCount = todoDataSearch.filter((el) => el.done).length;
+            const todoCount = todoDataSearch.length - doneCount;
+
+            return ( <
+                    div className = "container app index" > {
+                        isLoggedIn ? welcomeBox : loginBox
+                    } <
+                    span > {
+                        (new Date()).toString()
+                    } < /span> <
+                    AppHeader toDo = {
+                        todoCount
+                    }
+                    done = {
+                        doneCount
+                    }
+                    /> {
+                    /* onItemEnter={this.enterItem} */
+                } <
+                SearchPanel todos = {
+                    todoData
+                }
+            onInputChange = {
+                this.onInputChange
+            }
+            /> {
+            /* обновляет состояние компонента => onFilterChange*/
+        } <
+        StatusFilter filter = {
+            filter
+        }
+    onFilterChange = {
+        this.onFilterChange
     }
+    /> <
+    TodoList todos = {
+        visibleItems
+    }
+    onDeleted = {
+        this.deleteItem
+    }
+    onToggleImportant = {
+        this.onToggleImportant
+    }
+    onToggleDone = {
+        this.onToggleDone
+    }
+    /> <
+    AddItem todos = {
+        todoDataSearch
+    }
+    onItemAdded = {
+        this.addItem
+    }
+    /> < /
+    div >
+);
+}
 }
